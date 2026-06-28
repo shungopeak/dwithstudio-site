@@ -1,0 +1,89 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import type { WorkItem } from "@/lib/works";
+
+/**
+ * 実績一覧。カテゴリで絞り込み、画像はそれぞれのサイズ（比率）のまま
+ * マソンリー（CSS columns）で敷き詰める。
+ */
+export function WorksGallery({ items }: { items: WorkItem[] }) {
+  const categories = useMemo(() => {
+    const seen: { ja: string; en: string }[] = [];
+    for (const it of items) {
+      if (!seen.some((c) => c.ja === it.catJa)) seen.push({ ja: it.catJa, en: it.catEn });
+    }
+    return seen;
+  }, [items]);
+
+  const [active, setActive] = useState<string>("ALL");
+  const filtered = active === "ALL" ? items : items.filter((i) => i.catJa === active);
+
+  return (
+    <div className="mx-auto max-w-[1700px] px-5 sm:px-8">
+      {/* フィルター */}
+      <div className="flex flex-wrap gap-2.5">
+        <Chip label={`すべて (${items.length})`} active={active === "ALL"} onClick={() => setActive("ALL")} />
+        {categories.map((c) => (
+          <Chip
+            key={c.ja}
+            label={`${c.ja} (${items.filter((i) => i.catJa === c.ja).length})`}
+            active={active === c.ja}
+            onClick={() => setActive(c.ja)}
+          />
+        ))}
+      </div>
+
+      {/* マソンリー */}
+      <div className="mt-10 [column-gap:1.25rem] columns-2 sm:columns-3 lg:columns-4">
+        {filtered.map((w, i) => (
+          <a
+            key={`${w.src}-${i}`}
+            href="/contact"
+            className="group mb-5 block break-inside-avoid overflow-hidden rounded-xl bg-white shadow-[0_14px_40px_rgba(120,60,10,0.14)] ring-1 ring-black/5"
+          >
+            <div className="overflow-hidden">
+              {w.type === "video" ? (
+                <video className="block w-full transition-transform duration-700 ease-out group-hover:scale-105" autoPlay muted loop playsInline>
+                  <source src={w.src} />
+                </video>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={w.src}
+                  alt={w.catJa}
+                  loading="lazy"
+                  className="block w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              )}
+            </div>
+            <div className="flex items-center justify-between gap-3 px-4 py-3">
+              <span className="text-sm font-bold text-[#1b1208] transition-colors group-hover:text-brand-600">
+                {w.catJa}
+              </span>
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#1b1208]/40">
+                {w.catEn}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
+        active
+          ? "bg-brand-500 text-white"
+          : "bg-white text-[#1b1208]/70 ring-1 ring-black/10 hover:bg-brand-50 hover:text-brand-600"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}

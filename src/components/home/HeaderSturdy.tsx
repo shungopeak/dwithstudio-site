@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { label: "Work", href: "/#works" },
-  { label: "Service", href: "/#service" },
-  { label: "About", href: "/#about" },
-  { label: "News", href: "/#news" },
+  { label: "Work", href: "/works" },
+  { label: "Service", href: "/service" },
+  { label: "About", href: "/about" },
+  { label: "News", href: "/blog" },
 ];
 
 export function HeaderSturdy() {
@@ -53,13 +53,13 @@ export function HeaderSturdy() {
 
           {/* メインのボタン（常時表示） */}
           <Link
-            href="/#contact"
+            href="/contact"
             className="hidden rounded-full border-2 border-[#1b1208]/25 px-5 py-2 text-[0.85rem] font-bold text-[#1b1208] transition-colors hover:border-brand-500 hover:text-brand-600 sm:inline-block"
           >
             無料相談
           </Link>
           <Link
-            href="/#contact"
+            href="/contact"
             className="rounded-full bg-brand-500 px-5 py-2.5 text-[0.85rem] font-bold text-white transition-colors hover:bg-brand-600 sm:px-6"
           >
             お問い合わせ
@@ -85,7 +85,7 @@ export function HeaderSturdy() {
       {open && (
         <div className="border-t border-black/10 bg-[#fdf7f0]/97 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col px-5 py-3">
-            {[...navItems, { label: "無料相談・お問い合わせ", href: "/#contact" }].map((n) => (
+            {[...navItems, { label: "無料相談・お問い合わせ", href: "/contact" }].map((n) => (
               <Link
                 key={n.href}
                 href={n.href}

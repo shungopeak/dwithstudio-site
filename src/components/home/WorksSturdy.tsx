@@ -49,7 +49,7 @@ export function WorksSturdy() {
       <div className="relative mx-auto mt-12 max-w-[1700px] px-5 text-center sm:px-8">
         <Reveal>
           <a
-            href="#contact"
+            href="/works"
             className="group inline-flex items-end gap-2 text-[clamp(2rem,7vw,5rem)] font-black tracking-tight text-[#1b1208] transition-colors hover:text-brand-600"
           >
             <span className="border-b-4 border-[#1b1208] pb-2 transition-colors group-hover:border-brand-600">

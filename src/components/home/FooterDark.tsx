@@ -2,11 +2,11 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const navItems = [
-  { label: "Work", href: "/#works" },
-  { label: "Service", href: "/#service" },
-  { label: "About", href: "/#about" },
-  { label: "News", href: "/#news" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Work", href: "/works" },
+  { label: "Service", href: "/service" },
+  { label: "About", href: "/about" },
+  { label: "News", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function FooterDark() {
@@ -47,7 +47,7 @@ export function FooterDark() {
                 </a>
               </li>
               <li>
-                <Link href="/#contact" className="transition-colors hover:text-brand-400">
+                <Link href="/contact" className="transition-colors hover:text-brand-400">
                   無料AI集客診断フォーム
                 </Link>
               </li>

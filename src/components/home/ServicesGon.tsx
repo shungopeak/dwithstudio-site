@@ -14,21 +14,21 @@ const cards = [
     en: "Strength",
     ja: "dwithの強み",
     desc: "現役WEBマーケッター × AIクリエイター × 元アニメ制作。掛け算で「集客できる」状態をつくります。",
-    href: "#about",
+    href: "/about",
   },
   {
     no: "03",
     en: "First Visit",
     ja: "はじめての方へ",
     desc: "ご相談からカタチになるまでのプロセスをご案内します。まずは無料相談からお気軽にどうぞ。",
-    href: "#contact",
+    href: "/contact",
   },
   {
     no: "04",
     en: "Numbers",
     ja: "数字で見る dwith",
     desc: "スピード・対応領域・実績。dwith studio にまつわる様々な数字をご紹介します。",
-    href: "#works",
+    href: "/works",
   },
 ];
 

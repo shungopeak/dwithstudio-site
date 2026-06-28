@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { HeaderSturdy } from "@/components/home/HeaderSturdy";
 import { FooterDark } from "@/components/home/FooterDark";
 import { getPost, posts } from "@/lib/posts";
+import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -33,8 +34,30 @@ export default async function BlogPost({ params }: Params) {
   const post = getPost(slug);
   if (!post) notFound();
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    inLanguage: "ja-JP",
+    mainEntityOfPage: `${site.url}/blog/${post.slug}`,
+    image: `${site.url}/og.png`,
+    author: { "@type": "Organization", name: `${site.name} studio`, url: site.url },
+    publisher: {
+      "@type": "Organization",
+      name: `${site.name} studio`,
+      logo: { "@type": "ImageObject", url: `${site.url}/og.png` },
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
       <HeaderSturdy />
       <main className="bg-[#fdf7f0] text-[#1b1208]">
         {/* 記事ヘッダー */}

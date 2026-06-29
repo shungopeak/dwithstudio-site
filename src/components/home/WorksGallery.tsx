@@ -36,37 +36,54 @@ export function WorksGallery({ items }: { items: WorkItem[] }) {
 
       {/* マソンリー */}
       <div className="mt-10 [column-gap:1.25rem] columns-2 sm:columns-3 lg:columns-4">
-        {filtered.map((w, i) => (
-          <a
-            key={`${w.src}-${i}`}
-            href="/contact"
-            className="group mb-5 block break-inside-avoid overflow-hidden rounded-xl bg-white shadow-[0_14px_40px_rgba(120,60,10,0.14)] ring-1 ring-black/5"
-          >
-            <div className="overflow-hidden">
-              {w.type === "video" ? (
-                <video className="block w-full transition-transform duration-700 ease-out group-hover:scale-105" autoPlay muted loop playsInline>
-                  <source src={w.src} />
-                </video>
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={w.src}
-                  alt={w.catJa}
-                  loading="lazy"
-                  className="block w-full transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              )}
-            </div>
-            <div className="flex items-center justify-between gap-3 px-4 py-3">
-              <span className="text-sm font-bold text-[#1b1208] transition-colors group-hover:text-brand-600">
-                {w.catJa}
-              </span>
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#1b1208]/40">
-                {w.catEn}
-              </span>
-            </div>
-          </a>
-        ))}
+        {filtered.map((w, i) => {
+          const external = !!w.url;
+          return (
+            <a
+              key={`${w.src}-${i}`}
+              href={w.url ?? "/contact"}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="group mb-5 block break-inside-avoid overflow-hidden rounded-xl bg-white shadow-[0_14px_40px_rgba(120,60,10,0.14)] ring-1 ring-black/5"
+            >
+              <div className="overflow-hidden">
+                {w.type === "video" ? (
+                  <video className="block w-full transition-transform duration-700 ease-out group-hover:scale-105" autoPlay muted loop playsInline>
+                    <source src={w.src} />
+                  </video>
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={w.src}
+                    alt={w.title ?? w.catJa}
+                    loading="lazy"
+                    className="block w-full transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                )}
+              </div>
+              <div className="px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm font-bold text-[#1b1208] transition-colors group-hover:text-brand-600">
+                    {w.title ?? w.catJa}
+                  </span>
+                  <span className="shrink-0 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#1b1208]/40">
+                    {w.year ?? w.catEn}
+                  </span>
+                </div>
+                {w.client && (
+                  <p className="mt-1 text-xs font-medium text-[#1b1208]/55">{w.client}</p>
+                )}
+                {w.summary && (
+                  <p className="mt-2 text-xs leading-relaxed text-[#5b4636]">{w.summary}</p>
+                )}
+                {w.result && (
+                  <p className="mt-2 inline-block rounded-full bg-brand-500/12 px-2.5 py-1 text-[0.7rem] font-bold text-brand-600">
+                    {w.result}
+                  </p>
+                )}
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   );

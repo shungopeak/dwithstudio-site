@@ -1,23 +1,62 @@
 import fs from "node:fs";
 import path from "node:path";
+import { workOverrides } from "@/content/hearing";
 
 const imgExts = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".avif"]);
 const vidExts = new Set([".mp4", ".webm", ".mov", ".ogg"]);
 
 export type WorkMedia = { src: string; type: "image" | "video" };
-export type WorkItem = WorkMedia & { catJa: string; catEn: string };
+export type WorkItem = WorkMedia & {
+  catJa: string;
+  catEn: string;
+  /** ヒアリングシート(hearing.ts)から追記される任意情報 */
+  title?: string;
+  client?: string;
+  year?: string;
+  summary?: string;
+  result?: string;
+  url?: string;
+  featured?: boolean;
+};
+
+/** src からファイル名（拡張子なし）を取り出す。例: /works-web/work-12.webp → work-12 */
+function keyOf(src: string): string {
+  const file = decodeURIComponent(src.split("/").pop() ?? "");
+  return file.replace(/\.[^.]+$/, "");
+}
+
+/** ヒアリングシートの追記情報をマージする */
+function applyOverride(item: WorkItem): WorkItem {
+  const o = workOverrides[keyOf(item.src)];
+  if (!o) return item;
+  return {
+    ...item,
+    title: o.title ?? item.title,
+    client: o.client,
+    year: o.year,
+    summary: o.summary,
+    result: o.result,
+    url: o.url,
+    featured: o.featured,
+    catJa: o.category ?? item.catJa,
+  };
+}
 
 /** optimize-works.mjs が生成する manifest を読む（カテゴリ付き作品リスト） */
 export function getWorkItems(): WorkItem[] {
+  let items: WorkItem[];
   try {
     const p = path.join(process.cwd(), "public", "works-web", "manifest.json");
     const raw = fs.readFileSync(p, "utf8");
-    const items = JSON.parse(raw) as WorkItem[];
-    if (Array.isArray(items) && items.length) return items;
+    const parsed = JSON.parse(raw) as WorkItem[];
+    items =
+      Array.isArray(parsed) && parsed.length
+        ? parsed
+        : getWorkMedia().map((m) => ({ ...m, catJa: "クリエイティブ", catEn: "Creative" }));
   } catch {
-    /* manifest 無しは下のフォールバックへ */
+    items = getWorkMedia().map((m) => ({ ...m, catJa: "クリエイティブ", catEn: "Creative" }));
   }
-  return getWorkMedia().map((m) => ({ ...m, catJa: "クリエイティブ", catEn: "Creative" }));
+  return items.map(applyOverride);
 }
 
 /** カテゴリの偏りを抑えつつ厳選（ごん次郎風の少数精鋭リール用） */
@@ -29,9 +68,14 @@ export function getFeaturedWorks(limit = 12): WorkItem[] {
     arr.push(it);
     byCat.set(it.catEn, arr);
   }
-  // 動画を先頭に、その後はカテゴリをラウンドロビンで拾って多様性を出す
-  const out: WorkItem[] = items.filter((i) => i.type === "video");
-  const queues = [...byCat.values()].map((a) => a.filter((i) => i.type !== "video"));
+  // ヒアリングシートで featured 指定したものを最優先、次に動画、その後カテゴリをラウンドロビン
+  const out: WorkItem[] = [
+    ...items.filter((i) => i.featured),
+    ...items.filter((i) => !i.featured && i.type === "video"),
+  ];
+  const queues = [...byCat.values()].map((a) =>
+    a.filter((i) => !i.featured && i.type !== "video"),
+  );
   let added = true;
   while (out.length < limit && added) {
     added = false;

@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { services as serviceList } from "@/content/hearing";
 
 // gonshiroトップの「Business」紹介＝4枚のカード構成を踏襲
 const cards = [
@@ -30,17 +31,6 @@ const cards = [
     desc: "スピード・対応領域・実績。dwith studio にまつわる様々な数字をご紹介します。",
     href: "/works",
   },
-];
-
-const services = [
-  ["01", "AIマーケ伴走", "AI Marketing", "戦略設計から運用まで、現役マーケッターが伴走支援。"],
-  ["02", "AI集客代行", "Lead Generation", "SNS・広告・MEOをAIで高速運用し、問い合わせを増やす。"],
-  ["03", "LP・HP制作", "Web Design", "成果から逆算したLP・ホームページをスピード制作。"],
-  ["04", "EC・予約サイト", "EC & Booking", "Stripe連携ECや予約システム付きサイトを構築。"],
-  ["05", "会員制サイト", "Membership", "ファンを囲い込む会員制・サブスク基盤を構築。"],
-  ["06", "動画・MV制作", "Motion", "ショート動画からMVまで、AI×編集で量産。"],
-  ["07", "VTuber・配信", "VTuber", "立ち絵・サムネ・配信まわりをトータルで支援。"],
-  ["08", "AI研修・顧問", "AI Training", "社内のAI活用を内製化する研修・顧問。"],
 ];
 
 export function ServicesGon() {
@@ -110,17 +100,17 @@ export function ServicesGon() {
           できることを、掛け合わせる。
         </Reveal>
         <div className="mt-12 border-t border-white/25">
-          {services.map(([no, title, en, desc], i) => (
-            <Reveal key={no} delay={(i % 4) * 70}>
+          {serviceList.map((s, i) => (
+            <Reveal key={s.no} delay={(i % 4) * 70}>
               <a
-                href="#contact"
+                href="/service"
                 className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-white/25 py-6 transition-colors hover:bg-white/10 sm:gap-10 sm:py-7"
               >
-                <span className="font-mono text-sm text-white/70">{no}</span>
+                <span className="font-mono text-sm text-white/70">{s.no}</span>
                 <div className="min-w-0">
-                  <p className="text-lg font-black tracking-tight sm:text-2xl">{title}</p>
+                  <p className="text-lg font-black tracking-tight sm:text-2xl">{s.title}</p>
                   <p className="mt-1 hidden text-xs uppercase tracking-[0.2em] text-white/70 sm:block">
-                    {en} — {desc}
+                    {s.en} — {s.desc}
                   </p>
                 </div>
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/50 transition-all duration-300 group-hover:bg-white group-hover:text-brand-600">

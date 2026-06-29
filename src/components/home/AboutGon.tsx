@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { profile, strengths } from "@/content/hearing";
 
 // コラージュに使う作品（明るい背景で散らして見せる）
 const collage = [
@@ -64,12 +65,12 @@ export function AboutGon() {
           <div className="overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(120,60,10,0.2)] ring-1 ring-black/5">
             <div className="aspect-[4/5] overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/profile.jpg" alt="シュンゴー" className="h-full w-full object-cover" />
+              <img src={profile.photo} alt={profile.name} className="h-full w-full object-cover" />
             </div>
             <div className="px-5 py-4">
-              <p className="text-base font-black">シュンゴー</p>
+              <p className="text-base font-black">{profile.name}</p>
               <p className="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-brand-600">
-                Founder / dwith studio
+                {profile.role}
               </p>
             </div>
           </div>
@@ -78,14 +79,10 @@ export function AboutGon() {
 
       {/* 強み */}
       <div className="relative mx-auto mt-14 grid max-w-[1100px] gap-px overflow-hidden rounded-2xl bg-black/5 px-5 sm:grid-cols-3 sm:px-8">
-        {[
-          ["AI Creator", "生成AIを実務に落とし込む制作力"],
-          ["Web Marketer", "現役で数字を追うマーケ視点"],
-          ["Ex-Anime", "元アニメ制作者の表現とこだわり"],
-        ].map(([en, ja], i) => (
-          <Reveal key={en} delay={i * 100} className="bg-[#fdf7f0] p-7">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-600">{en}</p>
-            <p className="mt-3 text-sm font-bold text-[#1b1208]">{ja}</p>
+        {strengths.map((s, i) => (
+          <Reveal key={s.en} delay={i * 100} className="bg-[#fdf7f0] p-7">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-600">{s.en}</p>
+            <p className="mt-3 text-sm font-bold text-[#1b1208]">{s.ja}</p>
           </Reveal>
         ))}
       </div>

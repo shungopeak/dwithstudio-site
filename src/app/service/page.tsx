@@ -4,72 +4,8 @@ import { FooterDark } from "@/components/home/FooterDark";
 import { PageHero } from "@/components/home/PageHero";
 import { CtaBand } from "@/components/home/CtaBand";
 import { Reveal } from "@/components/home/Reveal";
-
-const services = [
-  {
-    no: "01",
-    title: "AIマーケ伴走",
-    en: "AI Marketing",
-    desc: "戦略設計から日々の運用まで、現役マーケッターがAIを使い倒して伴走。「何をやるか」だけでなく「成果が出るまで」を一緒に走ります。",
-    points: ["集客戦略・導線設計", "KPI設計とレポーティング", "AI活用の内製化サポート"],
-  },
-  {
-    no: "02",
-    title: "AI集客代行",
-    en: "Lead Generation",
-    desc: "SNS・広告・MEOをAIで高速に運用。手の届かなかった発信量を一気に増やし、問い合わせ・来店につなげます。",
-    points: ["SNS運用・投稿量産", "Web広告の運用", "MEO・口コミ対策"],
-  },
-  {
-    no: "03",
-    title: "LP・HP制作",
-    en: "Web Design",
-    desc: "成果から逆算したランディングページ・ホームページをスピード制作。見た目だけでなく「問い合わせが増える」設計にこだわります。",
-    points: ["集客特化のLP", "コーポレート・店舗サイト", "公開後の改善運用"],
-  },
-  {
-    no: "04",
-    title: "EC・予約サイト",
-    en: "EC & Booking",
-    desc: "Stripe連携のECや、予約システム付きサイトを構築。売る・予約を受けるところまで一気通貫で仕組み化します。",
-    points: ["ネットショップ構築", "予約・決済システム", "在庫・顧客管理連携"],
-  },
-  {
-    no: "05",
-    title: "会員制サイト",
-    en: "Membership",
-    desc: "ファンを囲い込む会員制・サブスク基盤を構築。継続課金とコミュニティで、安定した売上の土台をつくります。",
-    points: ["会員登録・認証", "サブスク課金", "限定コンテンツ配信"],
-  },
-  {
-    no: "06",
-    title: "動画・MV制作",
-    en: "Motion",
-    desc: "ショート動画からミュージックビデオまで、AI×編集で量産。元アニメ制作の表現力で、伝わる映像をスピーディに。",
-    points: ["ショート動画", "ミュージックビデオ", "AI生成ビジュアル"],
-  },
-  {
-    no: "07",
-    title: "VTuber・配信",
-    en: "VTuber",
-    desc: "立ち絵・サムネ・配信まわりをトータルで支援。これから始める方も、伸ばしたい方も、世界観づくりからお任せください。",
-    points: ["立ち絵・キャラデザ", "配信サムネ・ヘッダー", "チャンネル運用支援"],
-  },
-  {
-    no: "08",
-    title: "AI研修・顧問",
-    en: "AI Training",
-    desc: "社内のAI活用を内製化する研修・顧問。現場で本当に使えるAIの取り入れ方を、御社に合わせて伴走しながら設計します。",
-    points: ["AI活用研修", "業務効率化の設計", "継続顧問"],
-  },
-];
-
-const flow = [
-  ["01", "無料相談", "現状とご要望をヒアリング。課題と方向性を整理します。"],
-  ["02", "ご提案・お見積り", "最適なプランと費用、スケジュールをご提示します。"],
-  ["03", "制作・実行", "AIと人の手でスピーディに制作・運用を進めます。"],
-  ["04", "改善・伴走", "公開して終わりではなく、成果が出るまで伴走します。"],
-];
+import { Faq } from "@/components/home/Faq";
+import { services, flow } from "@/content/hearing";
 
 export const metadata: Metadata = {
   title: "サービス｜Service",
@@ -134,18 +70,21 @@ export default function ServicePage() {
               ご依頼の流れ
             </Reveal>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {flow.map(([no, title, desc], i) => (
-                <Reveal key={no} delay={i * 90}>
+              {flow.map((f, i) => (
+                <Reveal key={f.no} delay={i * 90}>
                   <div className="h-full rounded-2xl bg-[#fdf7f0] p-7">
-                    <span className="font-mono text-2xl font-black text-brand-500">{no}</span>
-                    <h3 className="mt-3 text-lg font-black text-[#1b1208]">{title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#5b4636]">{desc}</p>
+                    <span className="font-mono text-2xl font-black text-brand-500">{f.no}</span>
+                    <h3 className="mt-3 text-lg font-black text-[#1b1208]">{f.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[#5b4636]">{f.desc}</p>
                   </div>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
+
+        {/* よくある質問（hearing.ts の faqs を埋めると表示） */}
+        <Faq />
 
         <CtaBand />
       </main>

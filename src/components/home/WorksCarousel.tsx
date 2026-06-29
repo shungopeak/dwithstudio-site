@@ -85,10 +85,10 @@ export function WorksCarousel({ items }: { items: WorkItem[] }) {
             {/* キャプション（カテゴリ＝タイトル扱い） */}
             <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-black/10 pt-4">
               <span className="text-base font-bold tracking-tight text-[#1b1208] transition-colors group-hover:text-brand-600">
-                {w.catJa}
+                {w.title ?? w.catJa}
               </span>
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[#1b1208]/40">
-                {w.catEn} / 2025
+                {w.catEn} / {w.year ?? "2025"}
               </span>
             </div>
           </a>

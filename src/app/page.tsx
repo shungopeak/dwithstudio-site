@@ -3,6 +3,8 @@ import { HeroIntro } from "@/components/home/HeroIntro";
 import { AboutGon } from "@/components/home/AboutGon";
 import { WorksSturdy } from "@/components/home/WorksSturdy";
 import { ServicesGon } from "@/components/home/ServicesGon";
+import { Voice } from "@/components/home/Voice";
+import { Faq } from "@/components/home/Faq";
 import { News } from "@/components/home/News";
 import { FooterDark } from "@/components/home/FooterDark";
 import { Contact } from "@/components/Contact";
@@ -39,6 +41,8 @@ export default function Home() {
         <AboutGon />
         <WorksSturdy />
         <ServicesGon />
+        <Voice />
+        <Faq />
         <Contact />
       </main>
       <FooterDark />

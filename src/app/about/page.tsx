@@ -4,19 +4,19 @@ import { FooterDark } from "@/components/home/FooterDark";
 import { PageHero } from "@/components/home/PageHero";
 import { CtaBand } from "@/components/home/CtaBand";
 import { Reveal } from "@/components/home/Reveal";
+import { Voice } from "@/components/home/Voice";
 import { site } from "@/lib/site";
+import { profile, strengths, company as companyInfo } from "@/content/hearing";
 
-const strengths = [
-  ["AI Creator", "生成AIを実務に落とし込む制作力", "最新の生成AIを「使える形」で実装。スピードとコストを両立します。"],
-  ["Web Marketer", "現役で数字を追うマーケ視点", "集客できるかどうか。常に成果から逆算してつくります。"],
-  ["Ex-Anime", "元アニメ制作者の表現とこだわり", "映像・ビジュアルのクオリティに、現場で培った妥協なきこだわりを。"],
-];
-
-const company = [
-  ["屋号", "dwith studio（ディーウィズ スタジオ）"],
-  ["代表", "シュンゴー"],
-  ["事業内容", "AI集客・AIマーケティング支援／Web・LP制作／動画・クリエイティブ制作／AI研修・顧問"],
-  ["対応エリア", "全国（オンライン対応）"],
+// 会社概要の表（hearing.ts の company を元に、空の項目は自動で省く）
+const company: [string, string][] = [
+  ["屋号", `${companyInfo.brand}（${companyInfo.brandKana}）`],
+  ["代表", companyInfo.founderName],
+  ["事業内容", companyInfo.business],
+  ["対応エリア", companyInfo.area],
+  ...(companyInfo.founded ? ([["設立", companyInfo.founded]] as [string, string][]) : []),
+  ...(companyInfo.address ? ([["所在地", companyInfo.address]] as [string, string][]) : []),
+  ...(companyInfo.businessHours ? ([["営業時間", companyInfo.businessHours]] as [string, string][]) : []),
   ["お問い合わせ", site.email],
 ];
 
@@ -52,12 +52,12 @@ export default function AboutPage() {
               <div className="overflow-hidden rounded-3xl bg-white shadow-[0_24px_60px_rgba(120,60,10,0.18)] ring-1 ring-black/5">
                 <div className="aspect-[4/5] overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/profile.jpg" alt="シュンゴー" className="h-full w-full object-cover" />
+                  <img src={profile.photo} alt={profile.name} className="h-full w-full object-cover" />
                 </div>
                 <div className="px-6 py-5">
-                  <p className="text-lg font-black text-[#1b1208]">シュンゴー</p>
+                  <p className="text-lg font-black text-[#1b1208]">{profile.name}</p>
                   <p className="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-brand-600">
-                    Founder / dwith studio
+                    {profile.role}
                   </p>
                 </div>
               </div>
@@ -65,23 +65,17 @@ export default function AboutPage() {
 
             <Reveal delay={120}>
               <h2 className="text-[clamp(1.6rem,3.5vw,2.6rem)] font-black leading-[1.15] tracking-[-0.02em] text-[#1b1208]">
-                現役マーケッターが、
-                <br />
-                AIで「集客できる」を量産する。
+                {profile.headline.split("\n").map((line, i) => (
+                  <span key={i}>
+                    {i > 0 && <br />}
+                    {line}
+                  </span>
+                ))}
               </h2>
               <div className="mt-6 space-y-4 text-sm leading-loose text-[#5b4636] sm:text-base">
-                <p>
-                  現役WEBマーケッターのシュンゴーが、AIクリエイターとして、そして元アニメ制作者としての表現力を掛け合わせ、
-                  「集客できる」状態をつくることに集中しています。
-                </p>
-                <p>
-                  AIで速く・安く、人の手で確かに。流行りのツールを入れて終わりではなく、
-                  数字を追い、成果が出るまで隣で伴走する——それが dwith studio のやり方です。
-                </p>
-                <p>
-                  LP・ホームページ制作から、SNS・広告運用、動画・VTuber、AI研修まで。
-                  「これもできる？」をワンストップで受けられるのが強みです。
-                </p>
+                {profile.bio.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
               </div>
             </Reveal>
           </div>
@@ -97,12 +91,12 @@ export default function AboutPage() {
               3つの掛け算
             </Reveal>
             <div className="mt-12 grid gap-5 sm:grid-cols-3">
-              {strengths.map(([en, ja, desc], i) => (
-                <Reveal key={en} delay={i * 90}>
+              {strengths.map((s, i) => (
+                <Reveal key={s.en} delay={i * 90}>
                   <div className="h-full rounded-2xl bg-[#fdf7f0] p-7">
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-600">{en}</p>
-                    <h3 className="mt-3 text-lg font-black text-[#1b1208]">{ja}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#5b4636]">{desc}</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-600">{s.en}</p>
+                    <h3 className="mt-3 text-lg font-black text-[#1b1208]">{s.ja}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#5b4636]">{s.desc}</p>
                   </div>
                 </Reveal>
               ))}
@@ -129,6 +123,9 @@ export default function AboutPage() {
             </dl>
           </div>
         </section>
+
+        {/* お客様の声（hearing.ts の voices を埋めると表示） */}
+        <Voice />
 
         <CtaBand />
       </main>

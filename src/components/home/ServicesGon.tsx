@@ -66,7 +66,7 @@ export function ServicesGon() {
         {/* 4枚のカード（gonshiro構成） */}
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((c, i) => (
-            <Reveal key={c.no} delay={i * 90}>
+            <Reveal key={c.no} pop delay={i * 90}>
               <a
                 href={c.href}
                 className="group flex h-full flex-col justify-between rounded-2xl border border-white/25 bg-white/[0.06] p-7 backdrop-blur-sm transition-colors hover:bg-white/[0.14]"

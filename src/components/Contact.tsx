@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MailCheck, Check } from "lucide-react";
 import { SectionHeading } from "./ui";
+import { Reveal } from "./home/Reveal";
 import { site } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -40,7 +41,7 @@ export function Contact() {
   return (
     <section id="contact" className="scroll-mt-20 py-20 sm:py-28">
       <div className="container-x">
-        <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
+        <Reveal pop className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
           <div className="grid lg:grid-cols-2">
             {/* 左：訴求 */}
             <div className="p-8 sm:p-12">
@@ -175,7 +176,7 @@ export function Contact() {
               )}
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

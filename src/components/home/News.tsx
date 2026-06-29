@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PillCta } from "./parts";
+import { Reveal } from "./Reveal";
 import { getSortedPosts } from "@/lib/posts";
 
 export function News() {
@@ -11,19 +12,21 @@ export function News() {
       <div className="mx-auto max-w-[1700px] px-5 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <span className="text-[0.72rem] font-bold uppercase tracking-[0.22em] text-brand-600">
+            <Reveal as="span" className="block text-[0.72rem] font-bold uppercase tracking-[0.22em] text-brand-600">
               ( News )
-            </span>
-            <h2 className="mt-5 text-[clamp(1.9rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-0.02em]">
+            </Reveal>
+            <Reveal as="h2" delay={80} className="mt-5 text-[clamp(1.9rem,4.5vw,3.4rem)] font-black leading-[1.05] tracking-[-0.02em]">
               コラム・お知らせ
-            </h2>
+            </Reveal>
           </div>
-          <PillCta href="/blog" label="VIEW MORE" />
+          <Reveal delay={160}>
+            <PillCta href="/blog" label="VIEW MORE" />
+          </Reveal>
         </div>
 
         <ul className="mt-14 divide-y divide-black/10 border-y border-black/10">
-          {posts.map((p) => (
-            <li key={p.slug}>
+          {posts.map((p, i) => (
+            <Reveal as="li" key={p.slug} delay={i * 90}>
               <Link
                 href={`/blog/${p.slug}`}
                 className="group flex flex-col gap-2 py-6 transition-colors hover:bg-black/[0.03] sm:flex-row sm:items-center sm:gap-8"
@@ -39,7 +42,7 @@ export function News() {
                 </span>
                 <ArrowRight className="hidden h-5 w-5 shrink-0 text-[#1b1208]/40 transition-transform group-hover:translate-x-1 sm:block" />
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>

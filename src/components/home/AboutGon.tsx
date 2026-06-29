@@ -80,7 +80,7 @@ export function AboutGon() {
       {/* 強み */}
       <div className="relative mx-auto mt-14 grid max-w-[1100px] gap-px overflow-hidden rounded-2xl bg-black/5 px-5 sm:grid-cols-3 sm:px-8">
         {strengths.map((s, i) => (
-          <Reveal key={s.en} delay={i * 100} className="bg-[#fdf7f0] p-7">
+          <Reveal key={s.en} pop delay={i * 100} className="bg-[#fdf7f0] p-7">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-600">{s.en}</p>
             <p className="mt-3 text-sm font-bold text-[#1b1208]">{s.ja}</p>
           </Reveal>

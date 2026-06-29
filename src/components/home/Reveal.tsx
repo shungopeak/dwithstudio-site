@@ -8,6 +8,8 @@ type RevealProps = {
   delay?: number;
   /** 行マスク式（大見出し用） */
   mask?: boolean;
+  /** dokomi風の弾むポップ表示（顔・作品など） */
+  pop?: boolean;
   className?: string;
   as?: ElementType;
 };
@@ -20,6 +22,7 @@ export function Reveal({
   children,
   delay = 0,
   mask = false,
+  pop = false,
   className = "",
   as: Tag = "div",
 }: RevealProps) {
@@ -44,7 +47,7 @@ export function Reveal({
     return () => io.disconnect();
   }, []);
 
-  const base = mask ? "line-mask" : "reveal";
+  const base = mask ? "line-mask" : pop ? "reveal-pop" : "reveal";
 
   return (
     <Tag

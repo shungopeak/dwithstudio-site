@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { WorkItem } from "@/lib/works";
+import { Reveal } from "./Reveal";
 
 /**
  * 実績一覧。カテゴリで絞り込み、画像はそれぞれのサイズ（比率）のまま
@@ -39,11 +40,16 @@ export function WorksGallery({ items }: { items: WorkItem[] }) {
         {filtered.map((w, i) => {
           const external = !!w.url;
           return (
-            <a
+            <Reveal
               key={`${w.src}-${i}`}
+              pop
+              delay={(i % 8) * 60}
+              className="mb-5 break-inside-avoid"
+            >
+            <a
               href={w.url ?? "/contact"}
               {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="group mb-5 block break-inside-avoid overflow-hidden rounded-xl bg-white shadow-[0_14px_40px_rgba(120,60,10,0.14)] ring-1 ring-black/5"
+              className="group block overflow-hidden rounded-xl bg-white shadow-[0_14px_40px_rgba(120,60,10,0.14)] ring-1 ring-black/5"
             >
               <div className="overflow-hidden">
                 {w.type === "video" ? (
@@ -82,6 +88,7 @@ export function WorksGallery({ items }: { items: WorkItem[] }) {
                 )}
               </div>
             </a>
+            </Reveal>
           );
         })}
       </div>

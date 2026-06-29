@@ -48,7 +48,7 @@ export default function AboutPage() {
         {/* プロフィール */}
         <section className="py-16 sm:py-24">
           <div className="mx-auto grid max-w-[1100px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1fr]">
-            <Reveal>
+            <Reveal pop>
               <div className="overflow-hidden rounded-3xl bg-white shadow-[0_24px_60px_rgba(120,60,10,0.18)] ring-1 ring-black/5">
                 <div className="aspect-[4/5] overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

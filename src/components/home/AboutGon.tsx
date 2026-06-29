@@ -47,7 +47,7 @@ export function AboutGon() {
         {/* 散らした作品 */}
         <div className="relative flex w-full items-center justify-center sm:w-[58%]">
           {collage.map((c, i) => (
-            <Reveal key={c.src} delay={i * 120} className={`${c.cls} ${i === 1 ? "-ml-6 mt-10" : ""} ${i === 2 ? "-ml-6 -mt-6" : ""}`}>
+            <Reveal key={c.src} pop delay={i * 120} className={`${c.cls} ${i === 1 ? "-ml-6 mt-10" : ""} ${i === 2 ? "-ml-6 -mt-6" : ""}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={c.src}
@@ -61,7 +61,7 @@ export function AboutGon() {
         </div>
 
         {/* プロフィール */}
-        <Reveal delay={200} className="w-[70%] sm:w-[34%]">
+        <Reveal pop delay={200} className="w-[70%] sm:w-[34%]">
           <div className="overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(120,60,10,0.2)] ring-1 ring-black/5">
             <div className="aspect-[4/5] overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}

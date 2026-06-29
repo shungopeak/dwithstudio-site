@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { hero } from "@/content/hearing";
 
 // 決定的な疑似乱数（毎回同じ散らし位置になるように）
 function rand(seed: number) {
@@ -191,14 +192,12 @@ export function HeroIntro({
             className="text-[clamp(2.8rem,10vw,10rem)] font-black leading-[0.9] tracking-[-0.03em] text-white"
             style={{ textShadow: "0 6px 40px rgba(120,40,0,0.35)" }}
           >
-            Create Fun
+            {hero.conceptLine1}
             <br />
-            <span style={{ color: "#2b1500" }}>&amp; Grow Hard.</span>
+            <span style={{ color: "#2b1500" }}>{hero.conceptLine2}</span>
           </h1>
-          <p className="mx-auto mt-8 max-w-xl text-sm font-medium leading-relaxed text-white sm:text-base">
-            AIと人のチカラで、WEBマーケティングの土台をつくる。
-            <br className="hidden sm:block" />
-            集客・制作・発信を一気通貫で。これが、dwith ism。
+          <p className="mx-auto mt-8 max-w-xl text-base font-bold leading-relaxed text-white sm:text-lg">
+            {hero.subCopy}
           </p>
           <div className="mx-auto mt-10 flex max-w-xl items-center justify-center gap-6">
             <a

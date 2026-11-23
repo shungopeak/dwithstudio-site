@@ -78,6 +78,45 @@ export async function POST(request: Request) {
     <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
   `;
 
+  // ① GAS（スプレッドシート記録＋Gmail通知）が設定されていれば最優先で使う
+  const gasUrl = process.env.CONTACT_GAS_URL;
+  const gasSecret = process.env.CONTACT_GAS_SECRET;
+  if (gasUrl && gasSecret) {
+    try {
+      // GAS Web アプリは 302 リダイレクト後に結果を返すため redirect: "follow"
+      const res = await fetch(gasUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          secret: gasSecret,
+          name,
+          company,
+          email,
+          phone,
+          message,
+        }),
+        redirect: "follow",
+        cache: "no-store",
+      });
+      const result = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+      } | null;
+      if (!res.ok || !result?.ok) {
+        console.error("GAS error:", res.status, result?.error);
+        return Response.json(
+          { error: "送信に失敗しました" },
+          { status: 502 },
+        );
+      }
+      return Response.json({ ok: true });
+    } catch (err) {
+      console.error("GAS send error:", err);
+      return Response.json({ error: "送信に失敗しました" }, { status: 500 });
+    }
+  }
+
+  // ② Resend（メール送信API）
   const resendKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL || site.email;
   // Resendで認証済みドメインのアドレスに置き換えてください（未設定時は検証用の既定値）
@@ -119,8 +158,14 @@ export async function POST(request: Request) {
     }
   }
 
-  // 未設定時：サーバーログに出力して成功を返す（開発・初期運用向け）
-  console.log("=== 新しいお問い合わせ（メール未設定のためログ出力）===");
+  // 送信先が未設定：本番では「届いていないのに送信完了」にならないようエラーを返す
+  console.log("=== 新しいお問い合わせ（送信先未設定のためログ出力）===");
   console.log(text);
+  if (process.env.NODE_ENV === "production") {
+    return Response.json(
+      { error: "現在フォームを受け付けられません" },
+      { status: 503 },
+    );
+  }
   return Response.json({ ok: true });
 }

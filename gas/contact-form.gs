@@ -69,6 +69,17 @@ function doPost(e) {
   }
 }
 
+/** 初回のみ実行：SECRET を自動生成して保存し、実行ログに表示する（Vercel に貼る値） */
+function setupSecret() {
+  const props = PropertiesService.getScriptProperties();
+  let secret = props.getProperty("SECRET");
+  if (!secret) {
+    secret = Utilities.getUuid().replace(/-/g, "") + Utilities.getUuid().replace(/-/g, "");
+    props.setProperty("SECRET", secret);
+  }
+  console.log("CONTACT_GAS_SECRET に設定する値: " + secret);
+}
+
 /** 動作確認用：エディタで実行すると通知メールとシート追記が1件届く */
 function testPost() {
   const secret = PropertiesService.getScriptProperties().getProperty("SECRET");
